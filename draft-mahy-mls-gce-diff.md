@@ -9,20 +9,20 @@ number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: "Security"
+workgroup: "Messaging Layer Security"
 keyword:
  - GroupContext
  - GroupContextExtensions
  - diffs
  - efficient diffs
 venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+  group: "Messaging Layer Security"
+  type: "Working Group"
+  mail: "mls@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/mls/"
+  github: "rohanmahy/mls-gce-diff"
+  latest: "https://rohanmahy.github.io/mls-gce-diff/draft-mahy-mls-gce-diff.html"
 
 author:
  -
