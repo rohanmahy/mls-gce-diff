@@ -41,8 +41,7 @@ informative:
 
 --- abstract
 
-One feature that the Messaging Layer Security (MLS) protocol provides is that it
-allows the members of a group to confirm that they agree on certain data.
+The Messaging Layer Security (MLS) protocol allows the members of the group to agree on a set of GroupContext extensions.
 MLS includes a mechanism to do a wholesale replacements of all GroupContext extensions,
 but not to modify individual extensions. In this document, we define a mechanism
 that allows implementations to add, update, and remove each element of the
@@ -76,9 +75,16 @@ Here, we define a new MLS proposal type GroupContextExtensionsDiff. This proposa
 
 {::boilerplate bcp14-tagged}
 
-This document uses many terms from {{!RFC9420}}. Some of these have
-names which are similar or may be confusing: GroupContext, GroupContext
-extension, ExtensionType, and GroupContextExtensions proposal.
+This document uses terms from {{!RFC9420}}. Some are similar or may be
+confusing, so they are summarized here:
+
+- GroupContext: The state of the group agreed on in a given epoch
+- GroupContext extension: A (type, value) tuple included in the GroupContext
+- ExtensionType: A two-byte identifier for the type of a GroupContext extension
+- GroupContextExtensions proposal: A proposal to remove all of the extensions in the group's GroupContext and replace them with a new set of GroupContext extensions
+
+Currently, the GroupContextExtensions proposal is the only mechanism defined for updating a group's GroupContext extensions.
+
 
 # GroupContextDiff
 
@@ -101,7 +107,8 @@ enum {
 uint8 DiffType;
 
 struct {
-    ExtensionType group_context_extension;
+    /* MUST be a GroupContext extension */
+    ExtensionType extension_type;
     OperationType operation;
     select (operation) {
         case remove:
@@ -149,6 +156,10 @@ GroupContext extension while also adding that extension to the
 A proposal which removes a GroupContext extension that is present in the
 `required_capabilities` list is invalid. Adding a required capability that is
 not supported by all group members is already forbidden by {{!RFC9420}}.
+
+**TODO**: Fix the below
+
+> There's nothing in MLS that says that there can only be one extension per ExtensionType in the GroupContext. If there were duplicates, this would be ambiguous. Could fix this with something dumb like (a) defining a noop OperationType and (b) saying that the n-th ExtensionDiff of a given type affects the n-th entry. That has the benefit of degrading to the normal thing in the sane case.
 
 
 # Diff Formats
